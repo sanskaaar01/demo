@@ -1,0 +1,519 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SatQueryAI | Satellite Intelligence</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-mark">S</div>
+            <div>
+                <div class="brand-name">SatQueryAI</div>
+                <div class="brand-subtitle">Satellite Intelligence</div>
+            </div>
+        </div>
+
+        <nav class="navigation">
+
+            <div class="nav-label">WORKSPACE</div>
+
+            <button class="nav-item active">
+                <span>⌕</span>
+                Query Analysis
+            </button>
+
+            <button class="nav-item" onclick="scrollToSection('uploadSection')">
+                <span>▧</span>
+                Satellite Imagery
+            </button>
+
+            <button class="nav-item" onclick="scrollToSection('results')">
+                <span>◫</span>
+                Change Detection
+            </button>
+
+            <div class="nav-label">SYSTEM</div>
+
+            <div class="system-item">
+                <span class="online-dot"></span>
+                Backend Online
+            </div>
+
+            <div class="system-item">
+                <span class="online-dot"></span>
+                Analysis Engine Ready
+            </div>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="sih-badge">SIH 2026</div>
+            <p>AI-powered satellite intelligence and geospatial analysis.</p>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <header class="header">
+
+            <div>
+                <div class="overline">SATELLITE INTELLIGENCE PLATFORM</div>
+                <h1>Analyze Earth from space.</h1>
+                <p class="header-description">
+                    Query satellite imagery, compare observations, detect changes,
+                    and generate evidence-based intelligence.
+                </p>
+            </div>
+
+            <div class="header-status">
+                <span class="online-dot"></span>
+                SYSTEM ONLINE
+            </div>
+
+        </header>
+
+
+        <!-- QUERY -->
+        <section class="panel query-panel">
+
+            <div class="panel-heading">
+                <div>
+                    <div class="overline">01 / QUERY</div>
+                    <h2>Natural language analysis</h2>
+                    <p>Describe what you want to investigate.</p>
+                </div>
+
+                <select id="analysisMode">
+                    <option value="auto">Auto Mode</option>
+                    <option value="live">Live NASA Data</option>
+                    <option value="demo">Demo Data</option>
+                </select>
+            </div>
+
+            <textarea
+                id="query"
+                placeholder="Example: Detect changes around Mumbai between 2020 and 2026..."
+            ></textarea>
+
+            <div class="quick-actions">
+                <span>Examples</span>
+
+                <button onclick="setExample('Detect changes around Mumbai between 2020 and 2026')">
+                    Mumbai change
+                </button>
+
+                <button onclick="setExample('Analyze vegetation changes in Delhi')">
+                    Vegetation
+                </button>
+
+                <button onclick="setExample('Analyze water changes around Kerala')">
+                    Water
+                </button>
+
+                <button onclick="setExample('Find satellite imagery around Pune')">
+                    Pune imagery
+                </button>
+            </div>
+
+            <div class="action-row">
+                <button class="secondary-button" onclick="clearQuery()">
+                    Clear
+                </button>
+
+                <button class="primary-button" onclick="sendQuery()">
+                    Run Analysis
+                    <span>→</span>
+                </button>
+            </div>
+
+        </section>
+
+
+        <!-- UPLOAD SECTION -->
+        <section class="panel upload-panel" id="uploadSection">
+
+            <div class="panel-heading">
+                <div>
+                    <div class="overline">02 / IMAGERY</div>
+                    <h2>Satellite imagery</h2>
+                    <p>Upload imagery for direct image comparison and change detection.</p>
+                </div>
+
+                <div class="format-badge">
+                    OPTICAL · SAR · MULTITEMPORAL
+                </div>
+            </div>
+
+
+            <div class="upload-grid">
+
+                <!-- PRIMARY -->
+                <div class="upload-column">
+
+                    <label class="upload-title">
+                        Upload primary image
+                    </label>
+
+                    <div
+                        class="upload-box"
+                        id="beforeDropZone"
+                        onclick="document.getElementById('beforeInput').click()"
+                        ondragover="handleDragOver(event, 'beforeDropZone')"
+                        ondragleave="handleDragLeave('beforeDropZone')"
+                        ondrop="handleDrop(event, 'before')"
+                    >
+
+                        <input
+                            type="file"
+                            id="beforeInput"
+                            accept=".png,.jpg,.jpeg,.tif,.tiff,.webp"
+                            hidden
+                            onchange="handleFile(this.files[0], 'before')"
+                        >
+
+                        <div class="upload-icon">↑</div>
+
+                        <div class="upload-main">
+                            <strong>Upload primary imagery</strong>
+                            <span>Click to browse or drag and drop</span>
+                        </div>
+
+                        <div class="upload-meta">
+                            PNG · JPG · JPEG · TIFF · GeoTIFF
+                        </div>
+
+                    </div>
+
+                    <div id="beforeFile" class="file-preview hidden"></div>
+
+                </div>
+
+
+                <!-- COMPARISON -->
+                <div class="upload-column">
+
+                    <label class="upload-title">
+                        Upload comparison image
+                        <span>OPTIONAL</span>
+                    </label>
+
+                    <div
+                        class="upload-box"
+                        id="afterDropZone"
+                        onclick="document.getElementById('afterInput').click()"
+                        ondragover="handleDragOver(event, 'afterDropZone')"
+                        ondragleave="handleDragLeave('afterDropZone')"
+                        ondrop="handleDrop(event, 'after')"
+                    >
+
+                        <input
+                            type="file"
+                            id="afterInput"
+                            accept=".png,.jpg,.jpeg,.tif,.tiff,.webp"
+                            hidden
+                            onchange="handleFile(this.files[0], 'after')"
+                        >
+
+                        <div class="upload-icon">↑</div>
+
+                        <div class="upload-main">
+                            <strong>Upload comparison imagery</strong>
+                            <span>Click to browse or drag and drop</span>
+                        </div>
+
+                        <div class="upload-meta">
+                            PNG · JPG · JPEG · TIFF · GeoTIFF
+                        </div>
+
+                    </div>
+
+                    <div id="afterFile" class="file-preview hidden"></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="upload-footer">
+
+                <button class="sample-button" onclick="trySampleAnalysis()">
+                    <span>✦</span>
+                    Try sample analysis
+                </button>
+
+                <div class="upload-note">
+                    <strong>Supported imagery</strong>
+                    <span>Satellite images and geospatial raster imagery</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PIPELINE -->
+        <section class="panel pipeline-panel">
+
+            <div class="panel-heading">
+                <div>
+                    <div class="overline">03 / PIPELINE</div>
+                    <h2>Intelligence workflow</h2>
+                </div>
+
+                <div id="pipelineStatus" class="pipeline-status">
+                    READY
+                </div>
+            </div>
+
+            <div class="pipeline">
+
+                <div class="pipeline-step" data-step="1">
+                    <span>01</span>
+                    <div>
+                        <strong>Query</strong>
+                        <small>Interpretation</small>
+                    </div>
+                </div>
+
+                <div class="pipeline-step" data-step="2">
+                    <span>02</span>
+                    <div>
+                        <strong>Requirements</strong>
+                        <small>Data definition</small>
+                    </div>
+                </div>
+
+                <div class="pipeline-step" data-step="3">
+                    <span>03</span>
+                    <div>
+                        <strong>Retrieval</strong>
+                        <small>Satellite data</small>
+                    </div>
+                </div>
+
+                <div class="pipeline-step" data-step="4">
+                    <span>04</span>
+                    <div>
+                        <strong>Quality</strong>
+                        <small>Validation</small>
+                    </div>
+                </div>
+
+                <div class="pipeline-step" data-step="5">
+                    <span>05</span>
+                    <div>
+                        <strong>Analysis</strong>
+                        <small>Image processing</small>
+                    </div>
+                </div>
+
+                <div class="pipeline-step" data-step="6">
+                    <span>06</span>
+                    <div>
+                        <strong>Change</strong>
+                        <small>Detection</small>
+                    </div>
+                </div>
+
+                <div class="pipeline-step" data-step="7">
+                    <span>07</span>
+                    <div>
+                        <strong>Recommendations</strong>
+                        <small>AI insights</small>
+                    </div>
+                </div>
+
+                <div class="pipeline-step" data-step="8">
+                    <span>08</span>
+                    <div>
+                        <strong>Result</strong>
+                        <small>Synthesis</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ERROR -->
+        <div id="errorBox" class="error-box hidden"></div>
+
+
+        <!-- RESULTS -->
+        <section id="results" class="results hidden">
+
+            <div class="results-heading">
+
+                <div>
+                    <div class="overline">04 / INTELLIGENCE</div>
+                    <h2 id="resultTitle">Analysis Result</h2>
+                </div>
+
+                <div id="confidence" class="confidence">
+                    --
+                </div>
+
+            </div>
+
+
+            <!-- OBSERVATION -->
+            <div class="result-grid">
+
+                <div class="result-card">
+
+                    <div class="result-card-heading">
+                        <span>Observation</span>
+                        <label>OBSERVED</label>
+                    </div>
+
+                    <p id="observation">
+                        Waiting for analysis...
+                    </p>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <div class="result-card-heading">
+                        <span>AI Interpretation</span>
+                        <label>INTERPRETED</label>
+                    </div>
+
+                    <p id="resultText">
+                        Waiting for analysis...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- BEFORE / AFTER -->
+            <div class="result-card imagery-result">
+
+                <div class="result-card-heading">
+                    <span>Before / After Imagery</span>
+                    <label>TEMPORAL COMPARISON</label>
+                </div>
+
+                <div id="comparisonSection">
+                    <div class="empty-result">
+                        No imagery comparison available yet.
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- CHANGE -->
+            <div class="result-card">
+
+                <div class="result-card-heading">
+                    <span>Change Detection</span>
+                    <label>COMPUTED</label>
+                </div>
+
+                <div id="changeSection">
+                    <div class="empty-result">
+                        Change detection results will appear here.
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- SATELLITE DATA -->
+            <div class="result-card">
+
+                <div class="result-card-heading">
+                    <span>Satellite Imagery</span>
+                    <label>SOURCE DATA</label>
+                </div>
+
+                <div id="imagerySection">
+                    <div class="empty-result">
+                        Satellite imagery information will appear here.
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- RECOMMENDATIONS -->
+            <div class="result-card recommendation-card">
+
+                <div class="result-card-heading">
+                    <span>AI Recommended Actions</span>
+                    <label>DECISION SUPPORT</label>
+                </div>
+
+                <div id="recommendationSection">
+                    <div class="empty-result">
+                        Recommendations will appear after analysis.
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- DATA DETAILS -->
+            <div class="result-grid">
+
+                <div class="result-card">
+
+                    <div class="result-card-heading">
+                        <span>Data Requirements</span>
+                    </div>
+
+                    <div id="requirements"></div>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <div class="result-card-heading">
+                        <span>Data Quality</span>
+                    </div>
+
+                    <div id="quality"></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="result-card">
+
+                <div class="result-card-heading">
+                    <span>Analysis Model</span>
+                </div>
+
+                <div id="model"></div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
